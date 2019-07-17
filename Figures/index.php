@@ -1,9 +1,9 @@
-<?php 
+<?php
 require_once '../autoloader.php';
-use TFET\FibonacciNum\Fibonacci;
+use TFET\Figures\Circle\CircleFigure;
 
-$f = new Fibonacci();
-$r = $f->fib();
+$f = new CircleFigure(13);
+$r = $f->ShowInfo();
 ?>
 <!DOCTYPE html>
 <html lang="en">
