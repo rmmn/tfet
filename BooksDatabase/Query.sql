@@ -1,0 +1,1 @@
+SELECT * FROM authors WHERE books_count < 7
