@@ -5,7 +5,7 @@ namespace TFET\Figures\Base;
 class StorageFigure
 {
     private $fn = "";
-    private $params = null;
+    private $params = [];
     public function __construct($figureParams, $filename)
     {
         $this->fn = $filename;
@@ -17,7 +17,7 @@ class StorageFigure
         $fpath = "../" . $this->fn;
         if (!file_exists($fpath)) {
             $file = fopen($fpath, "w");
-            fwrite($file, $this->params);
+            fwrite($file, json_encode($this->params));
             fclose($file);
         }
     }
@@ -37,6 +37,6 @@ class StorageFigure
 
     public function Show()
     {
-        return $this->params;
+        return json_encode($this->params);
     }
 }

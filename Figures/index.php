@@ -6,6 +6,7 @@ use TFET\Figures\Pyramid\PyramidFigure;
 use TFET\Figures\Rectangle\RectangleFigure;
 use TFET\Figures\Base\RandomFigure;
 use TFET\Figures\Base\StorageFigure;
+use TFET\Figures\Base\SortFigures;
 
 $circleClass = new CircleFigure(13);
 $circle = $circleClass->ShowInfo();
@@ -18,11 +19,25 @@ $rectangle = $rectangleClass->ShowInfo();
 
 $randCls = RandomFigure::RandClass('CircleFigure', 'PyramidFigure', 'RectangleFigure');
 
-$storage = new StorageFigure($circleClass->ShapeParams(), "figures.json");
+$storage = new StorageFigure(
+    [
+        $circleClass->ShapeParams(),
+        $pyramidClass->ShapeParams(),
+        $rectangleClass->ShapeParams()
+    ],
+    "figures.json"
+);
+
 $json = $storage->Show();
 $storage->Save();
 
-$readedFile = $storage->Read();
+$arr = json_decode($storage->Read());
+usort($arr, function ($a, $b) {
+    $a1 = $a->area;
+    $b1 = $b->area;
+    return $a1 == $b1 ? 0 : ($a1 > $b1 ? 1 : -1);
+});
+$arr = array_reverse($arr);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,8 +58,8 @@ $readedFile = $storage->Read();
         body {
             background-color: #fcfcfc;
             display: flex;
-            width: 100vw;
-            height: 100vh;
+            min-width: 100vw;
+            min-height: 100vh;
             align-items: center;
             justify-content: center;
             flex-flow: row wrap
@@ -73,7 +88,8 @@ $readedFile = $storage->Read();
             flex-flow: row wrap
         }
 
-        .item h3, .item p {
+        .item h3,
+        .item p {
             text-align: center;
             margin-bottom: 7px;
             word-wrap: normal;
@@ -115,6 +131,11 @@ $readedFile = $storage->Read();
         <div class="item">
             <h3>Данные из файла:</h3>
             <p class="break"><?= $storage->Read(); ?></p>
+        </div>
+
+        <div class="item">
+            <h3>Отсортированные данные:</h3>
+            <p class="break"><?= json_encode($arr); ?></p>
         </div>
     </div>
 </body>
