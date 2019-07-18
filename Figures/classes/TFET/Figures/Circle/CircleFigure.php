@@ -24,26 +24,19 @@ class CircleFigure extends BaseFigure
         return round(($this->pi * 2) * $this->_rad, 2);
     }
 
-    public function ShapeParams()
+    public function ShowParams($is_array = false)
     {
         $result = array(
-            "name" => $this->ShapeName(),
+            "name" => "Круг",
             "radius" => $this->_rad,
             "perimeter" => $this->Perimeter(),
             "area" => $this->Area()
         );
-        return json_encode($result);
+
+        if($is_array){
+            return $result;
+        } else {
+            return json_encode($result);
+        }
     }
-
-    public function ShapeName()
-    {
-        return "Круг";
-    }
-
-    public function ShowInfo()
-    {
-        return "Фигура: " . $this->ShapeName() . ", Радиус: " . $this->_rad . ", \n Периметр: " . $this->Perimeter() . ", \n Площадь: " . $this->Area();
-    }
-
-
 }

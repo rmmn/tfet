@@ -29,24 +29,19 @@ class RectangleFigure extends BaseFigure
        return ($this->a + $this->b) * 2;
     }
 
-    public function ShapeParams()
+    public function ShowParams($is_array = false)
     {
         $result = array(
-            "name" => $this->ShapeName(),
+            "name" => "Прямоугольник",
             "sides" => array("a" => $this->a, "b" => $this->b, "c" => $this->c, "d" => $this->d),
             "perimeter" => $this->Perimeter(),
             "area" => $this->Area()
         );
-        return json_encode($result);
-    }
-
-    public function ShapeName()
-    {
-        return "Прямоугольник";
-    }
-
-    public function ShowInfo()
-    {
-        return "Фигура: " . $this->ShapeName() . ", Сторона A: " . $this->a . ", Сторона B: " . $this->b . ", Сторона C: " . $this->c . ", Сторона D: " . $this->d .  ", \n Периметр: " . $this->Perimeter() . ", \n Площадь: " . $this->Area();
+        
+        if($is_array){
+            return $result;
+        } else {
+            return json_encode($result);
+        }
     }
 }

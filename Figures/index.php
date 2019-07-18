@@ -6,24 +6,24 @@ use TFET\Figures\Pyramid\PyramidFigure;
 use TFET\Figures\Rectangle\RectangleFigure;
 use TFET\Figures\Base\RandomFigure;
 use TFET\Figures\Base\StorageFigure;
-use TFET\Figures\Base\SortFigures;
 
 $circleClass = new CircleFigure(13);
-$circle = $circleClass->ShowInfo();
+$circle = $circleClass->ShowParams(true);
 
 $pyramidClass = new PyramidFigure(15, 12, 12);
-$pyramid = $pyramidClass->ShowInfo();
+$pyramid = $pyramidClass->ShowParams(true);
 
 $rectangleClass = new RectangleFigure(4, 3);
-$rectangle = $rectangleClass->ShowInfo();
+$rectangle = $rectangleClass->ShowParams(true);
 
-$randCls = RandomFigure::RandClass('CircleFigure', 'PyramidFigure', 'RectangleFigure');
+$randClass = RandomFigure::RandClass('CircleFigure', 'PyramidFigure', 'RectangleFigure');
+$random = $randClass->ShowParams(true);
 
 $storage = new StorageFigure(
     [
-        $circleClass->ShapeParams(),
-        $pyramidClass->ShapeParams(),
-        $rectangleClass->ShapeParams()
+        $circleClass->ShowParams(true),
+        $pyramidClass->ShowParams(true),
+        $rectangleClass->ShowParams(true)
     ],
     "figures.json"
 );
@@ -37,7 +37,6 @@ usort($arr, function ($a, $b) {
     $b1 = $b->area;
     return $a1 == $b1 ? 0 : ($a1 > $b1 ? 1 : -1);
 });
-$arr = array_reverse($arr);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -55,10 +54,14 @@ $arr = array_reverse($arr);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        html {
+            width: 100%;
+        }
+
         body {
             background-color: #fcfcfc;
             display: flex;
-            min-width: 100vw;
+            width: 100%;
             min-height: 100vh;
             align-items: center;
             justify-content: center;
@@ -78,7 +81,7 @@ $arr = array_reverse($arr);
 
         .item {
             width: 320px;
-            height: 200px;
+            min-height: 200px;
             background-color: #f4f4f4;
             margin: 3px;
             padding: 10px;
@@ -98,44 +101,90 @@ $arr = array_reverse($arr);
         .item p.break {
             word-break: break-all;
         }
+
+        .item div {
+            display: flex;
+            flex-flow: column nowrap
+        }
     </style>
 </head>
 
 <body>
     <div class="conteiner">
         <div class="item">
-            <h3>Круг:</h3>
-            <p><?= $circle; ?></p>
+            <div>
+                <span><strong>Фигура: </strong> <?= $circle['name']; ?></span>
+                <span><strong>Радиус: </strong> <?= $circle['radius']; ?></span>
+                <span><strong>Площадь: </strong> <?= $circle['area']; ?></span>
+                <span><strong>Периметр: </strong> <?= $circle['perimeter']; ?></span>
+            </div>
         </div>
 
         <div class="item">
-            <h3>Треугольник:</h3>
-            <p><?= $pyramid; ?></p>
+            <div>
+                <span><strong>Фигура: </strong> <?= $pyramid['name']; ?></span>
+                <span><strong>Стороны: </strong> A: <?= $pyramid['sides']['a']; ?>, B: <?= $pyramid['sides']['b']; ?>, C: <?= $pyramid['sides']['c']; ?></span>
+                <span><strong>Площадь: </strong> <?= $pyramid['area']; ?></span>
+                <span><strong>Периметр: </strong> <?= $pyramid['perimeter']; ?></span>
+            </div>
         </div>
 
         <div class="item">
-            <h3>Прямоугольник:</h3>
-            <p><?= $rectangle; ?></p>
+            <div>
+                <span><strong>Фигура: </strong> <?= $rectangle['name']; ?></span>
+                <span><strong>Стороны: </strong> A: <?= $rectangle['sides']['a']; ?>, B: <?= $rectangle['sides']['b']; ?>, C: <?= $rectangle['sides']['c']; ?>, D: <?= $rectangle['sides']['d']; ?></span>
+                <span><strong>Площадь: </strong> <?= $rectangle['area']; ?></span>
+                <span><strong>Периметр: </strong> <?= $rectangle['perimeter']; ?></span>
+            </div>
         </div>
 
         <div class="item">
             <h3>Рандом:</h3>
-            <p><?= $randCls->ShowInfo(); ?></p>
+            <div>
+                <?php if ($randClass instanceof RectangleFigure) : ?>
+
+                    <span><strong>Фигура: </strong> <?= $random['name']; ?></span>
+                    <span><strong>Стороны: </strong> A: <?= $random['sides']['a']; ?>, B: <?= $random['sides']['b']; ?>, C: <?= $random['sides']['c']; ?>, D: <?= $random['sides']['d']; ?></span>
+                    <span><strong>Площадь: </strong> <?= $random['area']; ?></span>
+                    <span><strong>Периметр: </strong> <?= $random['perimeter']; ?></span>
+
+                <?php elseif ($randClass instanceof PyramidFigure) : ?>
+
+                    <span><strong>Фигура: </strong> <?= $random['name']; ?></span>
+                    <span><strong>Стороны: </strong> A: <?= $random['sides']['a']; ?>, B: <?= $random['sides']['b']; ?>, C: <?= $random['sides']['c']; ?></span>
+                    <span><strong>Площадь: </strong> <?= $random['area']; ?></span>
+                    <span><strong>Периметр: </strong> <?= $random['perimeter']; ?></span>
+
+                <?php else : ?>
+
+                    <span><strong>Фигура: </strong> <?= $random['name']; ?></span>
+                    <span><strong>Радиус: </strong> <?= $random['radius']; ?></span>
+                    <span><strong>Площадь: </strong> <?= $random['area']; ?></span>
+                    <span><strong>Периметр: </strong> <?= $random['perimeter']; ?></span>
+
+                <?php endif; ?>
+            </div>
         </div>
 
         <div class="item">
             <h3>Данные для сохранения:</h3>
-            <p class="break"><?= $storage->Show(); ?></p>
+            <p class="break">
+                <?= html_entity_decode(str_replace('\u', '&#x', $storage->Show()), ENT_NOQUOTES, 'UTF-8'); ?>
+            </p>
         </div>
 
         <div class="item">
             <h3>Данные из файла:</h3>
-            <p class="break"><?= $storage->Read(); ?></p>
+            <p class="break">
+            <?= html_entity_decode(str_replace('\u', '&#x', $storage->Read()), ENT_NOQUOTES, 'UTF-8'); ?>
+            </p>
         </div>
 
         <div class="item">
             <h3>Отсортированные данные:</h3>
-            <p class="break"><?= json_encode($arr); ?></p>
+            <p class="break">
+            <?= html_entity_decode(str_replace('\u', '&#x', json_encode($arr)), ENT_NOQUOTES, 'UTF-8'); ?>
+            </p>
         </div>
     </div>
 </body>
