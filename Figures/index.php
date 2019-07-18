@@ -21,9 +21,9 @@ $random = $randClass->ShowParams(true);
 
 $storage = new StorageFigure(
     [
-        $circleClass->ShowParams(true),
+        $rectangleClass->ShowParams(true),
         $pyramidClass->ShowParams(true),
-        $rectangleClass->ShowParams(true)
+        $circleClass->ShowParams(true)       
     ],
     "figures.json"
 );
@@ -37,6 +37,7 @@ usort($arr, function ($a, $b) {
     $b1 = $b->area;
     return $a1 == $b1 ? 0 : ($a1 > $b1 ? 1 : -1);
 });
+$arr = array_reverse($arr);
 ?>
 <!DOCTYPE html>
 <html lang="en">
